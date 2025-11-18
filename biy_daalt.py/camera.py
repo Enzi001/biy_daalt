@@ -2,7 +2,7 @@ import cv2
 from pathlib import Path
 
 cascade_path = Path(cv2.data.haarcascades) / "haarcascade_frontalface_default.xml"
-
+# zasvar
 clf = cv2.CascadeClassifier(str(cascade_path))
 
 camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)  
