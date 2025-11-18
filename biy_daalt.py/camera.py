@@ -1,22 +1,20 @@
-import opencv_test
+import cv2
 from pathlib import Path
 
-# Locate the Haar Cascade file inside OpenCV installation
-cascade_path = Path(opencv_test.data.haarcascades) / "haarcascade_frontalface_default.xml"
+cascade_path = Path(cv2.data.haarcascades) / "haarcascade_frontalface_default.xml"
 
-# Load the classifier
-clf = opencv_test.CascadeClassifier(str(cascade_path))
+clf = cv2.CascadeClassifier(str(cascade_path))
 
-# Open webcam
-camera = opencv_test.VideoCapture(0, opencv_test.CAP_DSHOW)  # CAP_DSHOW avoids some Windows errors
+camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)  
 
 while True:
     ret, frame = camera.read()
     if not ret:
         print("Failed to access camera!")
         break
-    
-    gray = opencv_test.cvtColor(frame, opencv_test.COLOR_BGR2GRAY)
+
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
     faces = clf.detectMultiScale(
         gray,
         scaleFactor=1.1,
@@ -25,12 +23,12 @@ while True:
     )
 
     for (x, y, w, h) in faces:
-        opencv_test.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 2)
 
-    opencv_test.imshow("Live Face Detection - Press Q to Quit", frame)
+    cv2.imshow("Live Face Detection - Press Q to Quit", frame)
 
-    if opencv_test.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 camera.release()
-opencv_test.destroyAllWindows()
+cv2.destroyAllWindows()
